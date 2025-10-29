@@ -31,6 +31,43 @@ export default function UploadPage() {
     });
   }, [router]);
 
+  async function generateThumbnail(videoFile: File): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      video.muted = true;
+      
+      video.onloadeddata = () => {
+        video.currentTime = Math.min(3, video.duration * 0.1);
+      };
+      
+      video.onseeked = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 640;
+        canvas.height = (video.videoHeight / video.videoWidth) * 640;
+        
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error('Failed to get canvas context'));
+          return;
+        }
+        
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to generate thumbnail'));
+          }
+        }, 'image/jpeg', 0.85);
+      };
+      
+      video.onerror = () => reject(new Error('Video loading failed'));
+      video.src = URL.createObjectURL(videoFile);
+    });
+  }
+
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();

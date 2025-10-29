@@ -26,7 +26,7 @@ export default function Home() {
       .from('memes')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(12);
+      .limit(20);
 
     if (!error && data) {
       // Get thumbnail URLs
