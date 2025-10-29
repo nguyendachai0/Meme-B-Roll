@@ -1,4 +1,5 @@
 // src/app/api/upload/process/route.ts
+export const runtime = 'nodejs';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { NextRequest } from 'next/server';
 import { exec } from 'child_process';

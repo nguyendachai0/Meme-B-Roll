@@ -1,4 +1,5 @@
 // src/app/api/memes/[id]/route.ts
+export const runtime = 'nodejs';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { NextRequest } from 'next/server';
 

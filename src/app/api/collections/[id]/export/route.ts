@@ -1,9 +1,10 @@
+export const runtime = "nodejs";
+
 import archiver from "archiver";
 import { createClient } from "@supabase/supabase-js";
 import { generateDescriptiveFilename } from "@/lib/filename-generator";
 import { Readable } from "stream";
 
-export const runtime = "nodejs";
 
 export async function GET(
   request: Request,

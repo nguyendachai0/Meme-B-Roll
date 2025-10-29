@@ -1,4 +1,5 @@
 // /app/api/generate-title/route.ts
+export const runtime = 'nodejs';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { supabase } from '@/lib/supabase';
 
