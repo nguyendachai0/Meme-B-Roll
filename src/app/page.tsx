@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     loadMemes();
-    
+
     // Check if user is logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -26,7 +26,7 @@ export default function Home() {
       .from('memes')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(20);
+      .limit(50);
 
     if (!error && data) {
       // Get thumbnail URLs
@@ -49,7 +49,7 @@ export default function Home() {
   async function handleDelete(memeId: string) {
     const meme = memes.find(m => m.id === memeId);
     const confirmMessage = `Delete "${meme?.title || 'this meme'}"?\n\nThis cannot be undone.`;
-    
+
     if (!confirm(confirmMessage)) {
       return;
     }
@@ -65,7 +65,7 @@ export default function Home() {
 
       // Remove from UI immediately
       setMemes(memes.filter(m => m.id !== memeId));
-      
+
       // Show success message
       const successDiv = document.createElement('div');
       successDiv.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
@@ -122,18 +122,18 @@ export default function Home() {
                 </div>
 
                 {/* Delete button (shows on hover) */}
-                 {user && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(meme.id);
-                  }}
-                  className="absolute top-2 right-2 bg-black/60 hover:bg-red-600 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110"
-                  title="Delete meme"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              )}
+                {user && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(meme.id);
+                    }}
+                    className="absolute top-2 right-2 bg-black/60 hover:bg-red-600 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110"
+                    title="Delete meme"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
 
                 {/* Duration tag (bottom-right corner) */}
                 {meme.duration_seconds && (
